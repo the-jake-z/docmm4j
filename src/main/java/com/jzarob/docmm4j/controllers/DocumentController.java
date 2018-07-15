@@ -27,9 +27,9 @@ public class DocumentController {
         this.documentService = documentService;
     }
 
-    @GetMapping("/{formNumber}")
-    public ResponseEntity<Document> loadByFormNumber(@PathVariable final String formNumber) {
-        return ResponseEntity.ok(this.documentService.loadByFormNumber(formNumber));
+    @GetMapping("/{documentNumber}")
+    public ResponseEntity<Document> loadByFormNumber(@PathVariable final String documentNumber) {
+        return ResponseEntity.ok(this.documentService.loadByDocumentNumber(documentNumber));
     }
 
     @PostMapping()
@@ -38,31 +38,31 @@ public class DocumentController {
 
         document = this.documentService.createDocument(document);
         UriComponents components = componentsBuilder.path("documents/{formNumber}")
-                .buildAndExpand(document.getFormNumber());
+                .buildAndExpand(document.getDocumentNumber());
 
         return ResponseEntity.created(components.toUri()).build();
     }
 
-    @PostMapping("/{formNumber}/template")
-    public ResponseEntity<?> uploadTemplate(@PathVariable("formNumber") String formNumber,
+    @PostMapping("/{documentNumber}/template")
+    public ResponseEntity<?> uploadTemplate(@PathVariable("documentNumber") String documentNumber,
                                             @RequestParam("file") MultipartFile file,
                                             final UriComponentsBuilder componentsBuilder) throws IOException {
 
-        Document document = this.documentService.loadByFormNumber(formNumber);
+        Document document = this.documentService.loadByDocumentNumber(documentNumber);
         document.setFormTemplate(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
         this.documentService.saveDocument(document);
 
         return ResponseEntity.accepted().build();
     }
 
-    @GetMapping("/{formNumber}/template")
-    public ResponseEntity<?> getTemplateData(@PathVariable("formNumber") String formNumber) throws IOException {
-        Document document = this.documentService.loadByFormNumber(formNumber);
+    @GetMapping("/{documentNumber}/template")
+    public ResponseEntity<?> getTemplateData(@PathVariable("documentNumber") String documentNumber) throws IOException {
+        Document document = this.documentService.loadByDocumentNumber(documentNumber);
         byte[] formTemplateData = document.getFormTemplate().getData();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.wordprocessingml.document"));
-        headers.setContentDispositionFormData("attachment", document.getFormNumber() + ".docx");
+        headers.setContentDispositionFormData("attachment", document.getDocumentNumber() + ".docx");
         headers.setContentLength(formTemplateData.length);
 
         return new ResponseEntity<>(formTemplateData, headers, HttpStatus.OK);

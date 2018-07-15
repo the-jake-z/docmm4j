@@ -27,16 +27,16 @@ public class DocumentServiceTest {
 
     @Test(expected = DocumentNotFoundException.class)
     public void whenDocumentService_formNumberNotFound_ThrowsExeption() {
-        when(documentRepository.findByFormNumber(any())).thenThrow(DocumentNotFoundException.class);
-        documentService.loadByFormNumber("12345");
+        when(documentRepository.findByDocumentNumber(any())).thenThrow(DocumentNotFoundException.class);
+        documentService.loadByDocumentNumber("12345");
     }
 
     @Test()
     public void whenDocumentService_formNumberFound_returnsDocument() {
         Document expected = new Document();
-        when(documentRepository.findByFormNumber(any())).thenReturn(expected);
+        when(documentRepository.findByDocumentNumber(any())).thenReturn(expected);
 
-        Document result = documentService.loadByFormNumber("1234");
+        Document result = documentService.loadByDocumentNumber("1234");
 
         Assert.assertEquals(expected, result);
     }

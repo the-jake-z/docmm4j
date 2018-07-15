@@ -32,12 +32,12 @@ public class MergeController {
 
     @PostMapping()
     public ResponseEntity<?> mergeTempalte(@RequestBody MergeTemplateRequest request) {
-        Document document = this.documentService.loadByFormNumber(request.getFormNumber());
+        Document document = this.documentService.loadByDocumentNumber(request.getDocumentNumber());
         Resource mergedDocument = this.mergeService.mergeDocument(document, request.getMergeData());
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.wordprocessingml.document"));
-        headers.setContentDispositionFormData("attachment", document.getFormNumber() + ".docx");
+        headers.setContentDispositionFormData("attachment", document.getDocumentNumber() + ".docx");
 
 
         return new ResponseEntity(mergedDocument, headers, HttpStatus.OK);

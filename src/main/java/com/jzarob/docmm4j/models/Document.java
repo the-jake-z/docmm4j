@@ -2,7 +2,6 @@ package com.jzarob.docmm4j.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -15,7 +14,7 @@ public class Document {
     @Id
     private String id;
     @Indexed
-    private String formNumber;
+    private String documentNumber;
     private Map<String, String> mappingScheme;
 
     @JsonIgnore
@@ -29,12 +28,12 @@ public class Document {
         this.id = id;
     }
 
-    public String getFormNumber() {
-        return formNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
-    public void setFormNumber(String formNumber) {
-        this.formNumber = formNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     public Map<String, String> getMappingScheme() {

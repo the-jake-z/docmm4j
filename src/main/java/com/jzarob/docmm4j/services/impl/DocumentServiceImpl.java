@@ -20,8 +20,8 @@ public class DocumentServiceImpl implements DocumentService {
 
 
     @Override
-    public Document loadByFormNumber(String formNumber) {
-        Document document = this.documentRepository.findByFormNumber(formNumber);
+    public Document loadByDocumentNumber(String documentNumber) {
+        Document document = this.documentRepository.findByDocumentNumber(documentNumber);
 
         if(document == null) {
             throw new DocumentNotFoundException();

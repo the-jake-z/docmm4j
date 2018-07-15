@@ -1,18 +1,17 @@
 package com.jzarob.docmm4j.transfer;
 
-import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.JsonNode;
 
 public final class MergeTemplateRequest {
-    private String formNumber;
+    private String documentNumber;
     private String mergeData;
 
-    public String getFormNumber() {
-        return formNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
-    public void setFormNumber(String formNumber) {
-        this.formNumber = formNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     public String getMergeData() {
