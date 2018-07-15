@@ -13,8 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.xml.ws.Response;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -41,8 +39,5 @@ public class DocumentControllerTest {
 
     @Test
     public void documentController_whenCreate_returnsLocationHeader() {
-        when(documentService.createDocument(any())).thenReturn(new Document());
-
-        ResponseEntity<?> responseEntity = documentController.createDocument(new Document(), componentsBuilder);
     }
 }
