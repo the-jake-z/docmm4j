@@ -2,9 +2,10 @@ package com.jzarob.docmm4j.controllers;
 
 import com.jzarob.docmm4j.models.Document;
 import com.jzarob.docmm4j.models.MediaTypes;
+import com.jzarob.docmm4j.models.MultiMergeRequest;
 import com.jzarob.docmm4j.services.DocumentService;
 import com.jzarob.docmm4j.services.MergeService;
-import com.jzarob.docmm4j.transfer.MergeTemplateRequest;
+import com.jzarob.docmm4j.models.MergeTemplateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -21,26 +22,33 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/merge")
 public class MergeController {
 
-    private final DocumentService documentService;
     private final MergeService mergeService;
 
     @Autowired
-    public MergeController(final DocumentService documentService,
+    public MergeController(
                            final MergeService mergeService) {
-        this.documentService = documentService;
         this.mergeService = mergeService;
     }
 
-    @PostMapping()
+    @PostMapping("/single")
     public ResponseEntity<?> mergeTemplate(@RequestBody MergeTemplateRequest request) {
-        Document document = this.documentService.loadByDocumentNumber(request.getDocumentNumber());
-        Resource mergedDocument = this.mergeService.mergeDocument(document, request.getMergeData());
+        Resource mergedDocument = this.mergeService.mergeDocument(request.getDocumentNumber(), request.getMergeData());
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaTypes.WORD_MEDIA_TYPE);
-        headers.setContentDispositionFormData("attachment", document.getFileName());
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("attachment", request.getDocumentNumber() + ".pdf");
 
 
         return new ResponseEntity(mergedDocument, headers, HttpStatus.OK);
+    }
+
+    @PostMapping("/multiple")
+    public ResponseEntity<?> mergeTemplates(@RequestBody MultiMergeRequest request) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", "test.zip");
+
+        // TODO: finish this;
+        return new ResponseEntity<>(null, headers, HttpStatus.OK);
     }
 }

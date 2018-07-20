@@ -33,9 +33,4 @@ public class PojoTest {
     public void testExceptionPojos() {
         validator.validate("com.jzarob.docmm4j.exceptions", new FilterPackageInfo());
     }
-
-    @Test
-    public void testTransferPojos() {
-        validator.validate("com.jzarob.docmm4j.transfer", new FilterPackageInfo());
-    }
 }
