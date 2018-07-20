@@ -18,7 +18,7 @@ public class Document {
     private Map<String, String> mappingScheme;
 
     @JsonIgnore
-    private Binary formTemplate;
+    private Binary documentTemplate;
 
     public String getId() {
         return id;
@@ -44,16 +44,21 @@ public class Document {
         this.mappingScheme = mappingScheme;
     }
 
-    public Binary getFormTemplate() {
-        return formTemplate;
+    public Binary getDocumentTemplate() {
+        return documentTemplate;
     }
 
-    public void setFormTemplate(Binary formTemplate) {
-        this.formTemplate = formTemplate;
+    @JsonIgnore
+    public String getFileName() {
+        return String.format("%s.docx", documentNumber);
+    }
+
+    public void setDocumentTemplate(Binary documentTemplate) {
+        this.documentTemplate = documentTemplate;
     }
 
     @JsonIgnore
     public InputStream getFormTemplateInputStream() {
-        return new ByteArrayInputStream(this.formTemplate.getData());
+        return new ByteArrayInputStream(this.documentTemplate.getData());
     }
 }

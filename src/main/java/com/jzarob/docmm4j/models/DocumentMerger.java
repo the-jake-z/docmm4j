@@ -13,16 +13,19 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WordDocument {
+public class DocumentMerger {
 
     static {
         MailMerger.setMERGEFIELDInOutput(MailMerger.OutputField.KEEP_MERGEFIELD);
     }
 
     private final WordprocessingMLPackage wordprocessingMLPackage;
-    private Map<String, String> mergeData;
+    private final Map<String, String> mergeData;
 
-    public WordDocument(InputStream inputStream) {
+    public DocumentMerger(InputStream inputStream, Map<String, String> mergeData) {
+
+        this.mergeData = mergeData;
+
         try {
             this.wordprocessingMLPackage = WordprocessingMLPackage.load(inputStream);
         } catch (Docx4JException exception) {
@@ -32,10 +35,6 @@ public class WordDocument {
 
     public Map<String, String> getMergeData() {
         return mergeData;
-    }
-
-    public void setMergeData(Map<String, String> mergeData) {
-        this.mergeData = mergeData;
     }
 
     private static Map<DataFieldName, String> toDataFieldMap(Map<String, String> mergeData) {
@@ -48,9 +47,9 @@ public class WordDocument {
         return retValue;
     }
 
-    public void performMerge(OutputStream outputStream, boolean processHeadersAndFooters) {
+    public void performMerge(OutputStream outputStream) {
         try {
-            MailMerger.performMerge(wordprocessingMLPackage, toDataFieldMap(mergeData), processHeadersAndFooters);
+            MailMerger.performMerge(wordprocessingMLPackage, toDataFieldMap(mergeData), true);
         } catch (Docx4JException exception) {
             throw new WordDocumentMergeException(exception);
         }

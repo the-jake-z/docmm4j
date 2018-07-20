@@ -17,7 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/documents")
+@RequestMapping("/document")
 public class DocumentController {
 
     private final DocumentService documentService;
@@ -28,7 +28,7 @@ public class DocumentController {
     }
 
     @GetMapping("/{documentNumber}")
-    public ResponseEntity<Document> loadByFormNumber(@PathVariable final String documentNumber) {
+    public ResponseEntity<Document> loadByDocumentNumber(@PathVariable final String documentNumber) {
         return ResponseEntity.ok(this.documentService.loadByDocumentNumber(documentNumber));
     }
 
@@ -37,7 +37,7 @@ public class DocumentController {
                                             final UriComponentsBuilder componentsBuilder) {
 
         document = this.documentService.createDocument(document);
-        UriComponents components = componentsBuilder.path("documents/{formNumber}")
+        UriComponents components = componentsBuilder.path("/document/{documentNumber}")
                 .buildAndExpand(document.getDocumentNumber());
 
         return ResponseEntity.created(components.toUri()).build();
@@ -49,7 +49,7 @@ public class DocumentController {
                                             final UriComponentsBuilder componentsBuilder) throws IOException {
 
         Document document = this.documentService.loadByDocumentNumber(documentNumber);
-        document.setFormTemplate(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
+        document.setDocumentTemplate(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
         this.documentService.saveDocument(document);
 
         return ResponseEntity.accepted().build();
@@ -58,11 +58,11 @@ public class DocumentController {
     @GetMapping("/{documentNumber}/template")
     public ResponseEntity<?> getTemplateData(@PathVariable("documentNumber") String documentNumber) throws IOException {
         Document document = this.documentService.loadByDocumentNumber(documentNumber);
-        byte[] formTemplateData = document.getFormTemplate().getData();
+        byte[] formTemplateData = document.getDocumentTemplate().getData();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.wordprocessingml.document"));
-        headers.setContentDispositionFormData("attachment", document.getDocumentNumber() + ".docx");
+        headers.setContentDispositionFormData("attachment", document.getFileName());
         headers.setContentLength(formTemplateData.length);
 
         return new ResponseEntity<>(formTemplateData, headers, HttpStatus.OK);

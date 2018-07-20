@@ -8,26 +8,23 @@ import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WordDocumentTest {
+public class DocumentMergerTest {
 
-    private WordDocument wordDocument;
+    private DocumentMerger documentMerger;
 
     @Before
     public void setUp() throws Exception {
-        this.wordDocument = new WordDocument(new FileInputStream("samples/sample.docx"));
-    }
-
-    @Test
-    public void merge() throws Exception {
 
         Map<String, String> mergeData = new HashMap<>();
 
         mergeData.put("SampleName", "Jake Z");
 
-        this.wordDocument.setMergeData(mergeData);
+        this.documentMerger = new DocumentMerger(new FileInputStream("samples/sample.docx"), mergeData);
+    }
 
+    @Test
+    public void documentMerger_shouldPerformMergeSuccessfully() throws Exception {
         FileOutputStream outputStream = new FileOutputStream("sample.docx");
-
-        this.wordDocument.performMerge(outputStream, true);
+        this.documentMerger.performMerge(outputStream);
     }
 }

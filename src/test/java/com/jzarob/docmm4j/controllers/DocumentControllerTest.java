@@ -2,6 +2,7 @@ package com.jzarob.docmm4j.controllers;
 
 import com.jzarob.docmm4j.models.Document;
 import com.jzarob.docmm4j.services.DocumentService;
+import org.apache.http.HttpHeaders;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,12 +33,19 @@ public class DocumentControllerTest {
     public void documentController_whenGetDocumentNumber_returnsSuccessStatus() {
         when(documentService.loadByDocumentNumber(any())).thenReturn(new Document());
 
-        ResponseEntity<?> responseEntity = documentController.loadByFormNumber("12345");
+        ResponseEntity<?> responseEntity = documentController.loadByDocumentNumber("12345");
 
         Assert.assertTrue(responseEntity.getStatusCode() == HttpStatus.OK);
     }
 
     @Test
     public void documentController_whenCreate_returnsLocationHeader() {
+        Document d = new Document();
+        d.setDocumentNumber("12345");
+        when(documentService.createDocument(d)).thenReturn(d);
+
+        ResponseEntity<?> responseEntity = documentController.createDocument(d, UriComponentsBuilder.newInstance());
+
+        Assert.assertEquals("/document/12345", responseEntity.getHeaders().getLocation().toString());
     }
 }
