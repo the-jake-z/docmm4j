@@ -1,6 +1,7 @@
 package com.jzarob.docmm4j.controllers;
 
 import com.jzarob.docmm4j.models.Document;
+import com.jzarob.docmm4j.models.MediaTypes;
 import com.jzarob.docmm4j.services.DocumentService;
 import com.jzarob.docmm4j.services.MergeService;
 import com.jzarob.docmm4j.transfer.MergeTemplateRequest;
@@ -31,13 +32,13 @@ public class MergeController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> mergeTempalte(@RequestBody MergeTemplateRequest request) {
+    public ResponseEntity<?> mergeTemplate(@RequestBody MergeTemplateRequest request) {
         Document document = this.documentService.loadByDocumentNumber(request.getDocumentNumber());
         Resource mergedDocument = this.mergeService.mergeDocument(document, request.getMergeData());
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.wordprocessingml.document"));
-        headers.setContentDispositionFormData("attachment", document.getDocumentNumber() + ".docx");
+        headers.setContentType(MediaTypes.WORD_MEDIA_TYPE);
+        headers.setContentDispositionFormData("attachment", document.getFileName());
 
 
         return new ResponseEntity(mergedDocument, headers, HttpStatus.OK);

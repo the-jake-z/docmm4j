@@ -1,6 +1,7 @@
 package com.jzarob.docmm4j.controllers;
 
 import com.jzarob.docmm4j.models.Document;
+import com.jzarob.docmm4j.models.MediaTypes;
 import com.jzarob.docmm4j.services.DocumentService;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
@@ -52,16 +53,19 @@ public class DocumentController {
         document.setDocumentTemplate(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
         this.documentService.saveDocument(document);
 
-        return ResponseEntity.accepted().build();
+        UriComponents components = componentsBuilder.path("/document/{documentNumber}")
+                .buildAndExpand(document.getDocumentNumber());
+
+        return ResponseEntity.accepted().location(components.toUri()).build();
     }
 
     @GetMapping("/{documentNumber}/template")
-    public ResponseEntity<?> getTemplateData(@PathVariable("documentNumber") String documentNumber) throws IOException {
+    public ResponseEntity<?> getTemplateData(@PathVariable("documentNumber") String documentNumber) {
         Document document = this.documentService.loadByDocumentNumber(documentNumber);
         byte[] formTemplateData = document.getDocumentTemplate().getData();
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.wordprocessingml.document"));
+        headers.setContentType(MediaTypes.WORD_MEDIA_TYPE);
         headers.setContentDispositionFormData("attachment", document.getFileName());
         headers.setContentLength(formTemplateData.length);
 
