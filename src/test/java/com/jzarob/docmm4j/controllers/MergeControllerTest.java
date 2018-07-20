@@ -1,5 +1,6 @@
 package com.jzarob.docmm4j.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jzarob.docmm4j.models.Document;
 import com.jzarob.docmm4j.models.MediaTypes;
@@ -37,7 +38,7 @@ public class MergeControllerTest {
     }
 
     @Test
-    public void mergeDocumentRequest_returnsMergedDocument() {
+    public void mergeDocumentRequest_returnsMergedDocument() throws Exception {
 
         ByteArrayResource resource = new ByteArrayResource(new byte[] { 0x15 });
 
@@ -45,7 +46,10 @@ public class MergeControllerTest {
 
         MergeTemplateRequest templateRequest = new MergeTemplateRequest();
         templateRequest.setDocumentNumber("12345");
-        templateRequest.setMergeDataString("");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        templateRequest.setMergeData(objectMapper.readTree("{\"sampleNode\": \"test\"}"));
 
         ResponseEntity<?> responseEntity = mergeController.mergeTemplate(templateRequest);
 
