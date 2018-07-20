@@ -11,9 +11,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -41,13 +43,42 @@ public class DocumentServiceTest {
         Assert.assertEquals(expected, result);
     }
 
+    @Test(expected = DocumentNotFoundException.class)
+    public void whenDocumentService_documentNotFound_throwsException() {
+        Document expected = new Document();
+
+        documentService.loadByDocumentNumber("12345");
+    }
+
     @Test(expected = DuplicateDocumentException.class)
     public void whenDocumentService_documentExists_ThrowsException() {
-        when(documentRepository.existsById("12345")).thenThrow(DuplicateDocumentException.class);
+        when(documentRepository.existsById("12345")).thenReturn(true);
 
         Document temp = new Document();
         temp.setId("12345");
 
         documentService.createDocument(temp);
+    }
+
+    @Test
+    public void whenDocumentService_createDocument_returnDocument() {
+        Document temp = new Document();
+
+        when(documentRepository.save(temp)).thenReturn(temp);
+
+        Document result = documentService.createDocument(temp);
+
+        Assert.assertEquals(result, temp);
+    }
+
+    @Test
+    public void whenDocumentService_saveDocument_returnsDocument() {
+        Document temp = new Document();
+
+        when(documentRepository.save(temp)).thenReturn(temp);
+
+        documentService.saveDocument(temp);
+
+        Assert.assertTrue(true);
     }
 }
