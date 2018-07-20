@@ -8,12 +8,12 @@ mail merge operations for Word Documents that contain merge fields.
 ## Example Use
 
 1. Add a Word Document to the document repository by `POST`ing to
-   `http://your-url-here/documents`. This will return the location
+   `http://your-url-here/document`. This will return the location
    of the resource.
 
 ```json
 {
-    "formNumber": "SampleForm1",
+    "documentNumber": "SampleForm1",
     "mapping": {
         "MergeFieldName": "$.json.path",
         "MergeField2Name": "$.another.path"
@@ -22,7 +22,7 @@ mail merge operations for Word Documents that contain merge fields.
 ```
 
 2. Upload the template that contains merge fields by `POST`ing the
-   document to `http://your-url-here/documents/{formNumber}/template`
+   document to `http://your-url-here/documents/{documentNumber}/template`
    as a multipart form file.
 3. Perform merge operations by `POST`ing to the
    `http://your-url-here/merge`. The word document will be returned
@@ -30,7 +30,7 @@ mail merge operations for Word Documents that contain merge fields.
 
 ```json
 {
-    "formNumber": "SampleForm1",
+    "documentNumber": "SampleForm1",
     "mergeData": {
         "json": {
             "path": "some value"
