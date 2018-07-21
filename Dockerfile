@@ -1,4 +1,4 @@
-MAINTAINER Jake Zarobsky
+MAINTAINER https://github.com/jzarob
 FROM openjdk:8-jdk-alpine
 VOLUME /tmp
 COPY target/docmm4j.jar app.jar
