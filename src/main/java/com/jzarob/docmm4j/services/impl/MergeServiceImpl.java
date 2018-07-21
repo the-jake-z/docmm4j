@@ -3,43 +3,41 @@ package com.jzarob.docmm4j.services.impl;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 import com.jzarob.docmm4j.exceptions.MultiMergeException;
+import com.jzarob.docmm4j.exceptions.WordDocumentMergeException;
 import com.jzarob.docmm4j.models.*;
 import com.jzarob.docmm4j.services.DocumentService;
 import com.jzarob.docmm4j.services.MergeService;
+import com.jzarob.docmm4j.services.ZipService;
+import org.docx4j.Docx4J;
+import org.docx4j.model.fields.merge.DataFieldName;
+import org.docx4j.model.fields.merge.MailMerger;
+import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 @Service
 public class MergeServiceImpl implements MergeService {
 
+    static {
+        MailMerger.setMERGEFIELDInOutput(MailMerger.OutputField.KEEP_MERGEFIELD);
+    }
+
     @Autowired
     private DocumentService documentService;
 
-    private ByteArrayOutputStream mergeDocument(InputStream documentTemplate, Map<String, String> mergeFieldValues) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    @Autowired
+    private ZipService zipService;
 
-        this.mergeDocument(documentTemplate, mergeFieldValues, outputStream);
-
-        return outputStream;
-    }
-
-    private void mergeDocument(InputStream documentTemplate,
-                               Map<String, String> mergeFieldValues,
-                               OutputStream outputStream) {
-        DocumentMerger documentMerger = new DocumentMerger(documentTemplate, mergeFieldValues);
-        documentMerger.performMerge(outputStream);
-    }
 
     @Override
     public Resource mergeDocument(String documentNumber, String mergeData) {
@@ -48,17 +46,42 @@ public class MergeServiceImpl implements MergeService {
 
         Object mergeDataObject = Configuration.defaultConfiguration().jsonProvider().parse(mergeData);
 
-        Map<String, String> mergeFieldValues = getMergeFieldValues(document.getMappingScheme(), mergeDataObject);
+        Map<DataFieldName, String> mergeFieldValues = getMergeFieldValues(document.getMappingScheme(), mergeDataObject);
 
         return new ByteArrayResource(
                 mergeDocument(document.getFormTemplateInputStream(), mergeFieldValues).toByteArray()
         );
     }
 
-    private static Map<String, String> getMergeFieldValues(Map<String, String> mappingScheme, Object jsonObjectData) {
-        Map<String, String> mergeFieldValues = new HashMap<>();
+    @Override
+    public Resource mergeMultipleDocuments(MultiMergeRequest multiMergeRequest) {
+
+        try {
+            Path rootDirectory = Files.createTempDirectory("batch");
+
+            for(Groupings group : multiMergeRequest.getGroupings()) {
+                mergeGroupInDirectory(group, rootDirectory);
+            }
+
+            Path temporaryZipFile = Files.createTempFile(null, ".zip");
+            FileOutputStream zipFileOutputStream =
+                    new FileOutputStream(temporaryZipFile.toString());
+
+
+            zipService.zipDirectory(rootDirectory, zipFileOutputStream);
+
+            return new FileSystemResource(temporaryZipFile.toFile());
+
+        } catch (IOException ex) {
+            throw new MultiMergeException(ex);
+        }
+    }
+
+    private static Map<DataFieldName, String> getMergeFieldValues(Map<String, String> mappingScheme,
+                                                                  Object jsonObjectData) {
+        Map<DataFieldName, String> mergeFieldValues = new HashMap<>();
         mappingScheme.forEach((key, value) -> {
-            mergeFieldValues.put(key, JsonPath.read(jsonObjectData, value));
+            mergeFieldValues.put(new DataFieldName(key), JsonPath.read(jsonObjectData, value));
         });
 
         return mergeFieldValues;
@@ -86,7 +109,7 @@ public class MergeServiceImpl implements MergeService {
                 .jsonProvider()
                 .parse(request.getMergeData());
 
-        Map<String, String> mergeFieldValues = getMergeFieldValues(document.getMappingScheme(), jsonObjectData);
+        Map<DataFieldName, String> mergeFieldValues = getMergeFieldValues(document.getMappingScheme(), jsonObjectData);
 
         FileOutputStream fileOutputStream = new FileOutputStream(
                 createFileInDirectory(document.getFileName(), groupDirectory));
@@ -94,47 +117,25 @@ public class MergeServiceImpl implements MergeService {
         mergeDocument(document.getFormTemplateInputStream(), mergeFieldValues, fileOutputStream);
     }
 
-    @Override
-    public Resource mergeMultipleDocuments(MultiMergeRequest multiMergeRequest) {
 
-        try {
-            Path rootDirectory = Files.createTempDirectory("batch");
+    private ByteArrayOutputStream mergeDocument(InputStream documentTemplate,
+                                                Map<DataFieldName, String> mergeFieldValues) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-            for(Groupings group : multiMergeRequest.getGroupings()) {
-                mergeGroupInDirectory(group, rootDirectory);
-            }
+        this.mergeDocument(documentTemplate, mergeFieldValues, outputStream);
 
-            Path temporaryZipFile = Files.createTempFile(null, ".zip");
-            FileOutputStream zipFileOutputStream =
-                    new FileOutputStream(temporaryZipFile.toString());
-
-
-            zipDirectory(rootDirectory, zipFileOutputStream);
-
-            return new FileSystemResource(temporaryZipFile.toFile());
-
-        } catch (IOException ex) {
-            throw new MultiMergeException(ex);
-        }
+        return outputStream;
     }
 
-
-    // Shamelessly stolen from:
-    // https://stackoverflow.com/questions/15968883/how-to-zip-a-folder-itself-using-java
-    private static void zipDirectory(Path sourceDirPath, OutputStream outputStream) throws IOException {
-        try (ZipOutputStream zs = new ZipOutputStream(outputStream)) {
-            Files.walk(sourceDirPath)
-                .filter(path -> !Files.isDirectory(path))
-                .forEach(path -> {
-                    ZipEntry zipEntry = new ZipEntry(sourceDirPath.relativize(path).toString());
-                    try {
-                        zs.putNextEntry(zipEntry);
-                        java.nio.file.Files.copy(path, zs);
-                        zs.closeEntry();
-                    } catch (IOException e) {
-                        System.err.println(e);
-                    }
-                });
+    private void mergeDocument(final InputStream documentTemplate,
+                               final Map<DataFieldName, String> mergeFieldValues,
+                               final OutputStream outputStream) {
+        try {
+            final WordprocessingMLPackage wordDocument = WordprocessingMLPackage.load(documentTemplate);
+            MailMerger.performMerge(wordDocument, mergeFieldValues, true);
+            Docx4J.toPDF(wordDocument, outputStream);
+        } catch (Exception ex) {
+            throw new WordDocumentMergeException(ex);
         }
     }
 }
