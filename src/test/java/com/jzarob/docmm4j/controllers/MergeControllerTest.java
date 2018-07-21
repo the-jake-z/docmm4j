@@ -23,10 +23,10 @@ public class MergeControllerTest {
 
 
     @Mock
-    MergeService mergeService;
+    private MergeService mergeService;
 
     @InjectMocks
-    MergeController mergeController;
+    private MergeController mergeController;
 
     @Before
     public void setUp() {

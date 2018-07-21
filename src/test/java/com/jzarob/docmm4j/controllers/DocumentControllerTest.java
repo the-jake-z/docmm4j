@@ -29,9 +29,6 @@ public class DocumentControllerTest {
     @Mock
     private DocumentService documentService;
 
-    @Mock
-    private UriComponentsBuilder componentsBuilder;
-
     @InjectMocks
     private DocumentController documentController;
 

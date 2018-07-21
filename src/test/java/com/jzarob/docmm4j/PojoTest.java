@@ -11,6 +11,7 @@ import com.openpojo.validation.test.impl.SetterTester;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.util.Assert;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PojoTest {
@@ -26,6 +27,8 @@ public class PojoTest {
                 .build();
 
         validator.validate("com.jzarob.docmm4j.exceptions", new FilterPackageInfo());
+
+        Assert.isTrue(true, "verify that we get here.");
     }
 
     @Test
@@ -36,5 +39,6 @@ public class PojoTest {
                 .build();
 
         validator.validate("com.jzarob.docmm4j.models", new FilterPackageInfo());
+        Assert.isTrue(true, "verify that we get here.");
     }
 }

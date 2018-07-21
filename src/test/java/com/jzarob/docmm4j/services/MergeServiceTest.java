@@ -31,10 +31,9 @@ public class MergeServiceTest {
 
 
     @Mock
-    DocumentService documentService;
-    ZipService zipService = new ZipServiceImpl();
-    MergeService mergeService;
-
+    private DocumentService documentService;
+    private ZipService zipService = new ZipServiceImpl();
+    private MergeService mergeService;
     private String mergeData;
     private Document document;
 
