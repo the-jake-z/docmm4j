@@ -42,11 +42,6 @@ mail merge operations for Word Documents that contain merge fields.
 }
 ```
 
-## Limitations
-
-- Only does one document at a time.
-- More metadata storage needed for reports.
-- No batch support (yet).
 
 ## Running
 

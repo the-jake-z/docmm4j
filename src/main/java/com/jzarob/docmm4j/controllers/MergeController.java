@@ -46,9 +46,10 @@ public class MergeController {
     public ResponseEntity<?> mergeTemplates(@RequestBody MultiMergeRequest request) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDispositionFormData("attachment", "test.zip");
+        headers.setContentDispositionFormData("attachment", "multi-zip.zip");
 
-        // TODO: finish this;
-        return new ResponseEntity<>(null, headers, HttpStatus.OK);
+        Resource content = mergeService.mergeMultipleDocuments(request);
+
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 }
