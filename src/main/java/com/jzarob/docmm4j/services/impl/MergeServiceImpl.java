@@ -124,7 +124,7 @@ public class MergeServiceImpl implements MergeService {
     private static void zipDirectory(Path sourceDirPath, OutputStream outputStream) throws IOException {
         try (ZipOutputStream zs = new ZipOutputStream(outputStream)) {
             Files.walk(sourceDirPath)
-                .filter(path -> !java.nio.file.Files.isDirectory(path))
+                .filter(path -> !Files.isDirectory(path))
                 .forEach(path -> {
                     ZipEntry zipEntry = new ZipEntry(sourceDirPath.relativize(path).toString());
                     try {

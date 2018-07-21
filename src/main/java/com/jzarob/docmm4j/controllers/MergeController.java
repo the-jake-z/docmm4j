@@ -6,6 +6,7 @@ import com.jzarob.docmm4j.models.MultiMergeRequest;
 import com.jzarob.docmm4j.services.DocumentService;
 import com.jzarob.docmm4j.services.MergeService;
 import com.jzarob.docmm4j.models.MergeTemplateRequest;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -31,6 +32,7 @@ public class MergeController {
     }
 
     @PostMapping("/single")
+    @ApiOperation("Returns a single PDF to the client with the one document")
     public ResponseEntity<?> mergeTemplate(@RequestBody MergeTemplateRequest request) {
         Resource mergedDocument = this.mergeService.mergeDocument(request.getDocumentNumber(), request.getMergeData());
 
@@ -43,10 +45,11 @@ public class MergeController {
     }
 
     @PostMapping("/multiple")
+    @ApiOperation(value = "Returns a zip file of all the merged documents")
     public ResponseEntity<?> mergeTemplates(@RequestBody MultiMergeRequest request) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDispositionFormData("attachment", "multi-zip.zip");
+        headers.setContentDispositionFormData("attachment", "batch.zip");
 
         Resource content = mergeService.mergeMultipleDocuments(request);
 

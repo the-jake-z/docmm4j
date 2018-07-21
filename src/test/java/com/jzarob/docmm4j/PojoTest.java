@@ -17,20 +17,25 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class PojoTest {
 
 
-    private Validator validator;
-
-    @Before
-    public void setUp() {
-        validator = ValidatorBuilder.create()
+    @Test
+    public void testExceptionPojos() {
+        Validator validator = ValidatorBuilder.create()
                 .with(new GetterMustExistRule())
                 .with(new SetterMustExistRule())
                 .with(new GetterTester())
                 .with(new SetterTester())
                 .build();
+
+        validator.validate("com.jzarob.docmm4j.exceptions", new FilterPackageInfo());
     }
 
     @Test
-    public void testExceptionPojos() {
-        validator.validate("com.jzarob.docmm4j.exceptions", new FilterPackageInfo());
+    public void testModelPojos() {
+        Validator validator = ValidatorBuilder.create()
+                .with(new GetterTester())
+                .with(new SetterTester())
+                .build();
+
+        validator.validate("com.jzarob.docmm4j.models", new FilterPackageInfo());
     }
 }

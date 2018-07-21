@@ -3,6 +3,8 @@ package com.jzarob.docmm4j.controllers;
 import com.jzarob.docmm4j.models.Document;
 import com.jzarob.docmm4j.models.MediaTypes;
 import com.jzarob.docmm4j.services.DocumentService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +31,13 @@ public class DocumentController {
     }
 
     @GetMapping("/{documentNumber}")
+    @ApiOperation("Returns a document object")
     public ResponseEntity<Document> loadByDocumentNumber(@PathVariable final String documentNumber) {
         return ResponseEntity.ok(this.documentService.loadByDocumentNumber(documentNumber));
     }
 
     @PostMapping()
+    @ApiOperation("Creates a document to use for merging")
     public ResponseEntity<?> createDocument(@RequestBody Document document,
                                             final UriComponentsBuilder componentsBuilder) {
 
@@ -45,6 +49,7 @@ public class DocumentController {
     }
 
     @PostMapping("/{documentNumber}/template")
+    @ApiOperation("Uploads a template to a document for merging")
     public ResponseEntity<?> uploadTemplate(@PathVariable("documentNumber") String documentNumber,
                                             @RequestParam("file") MultipartFile file,
                                             final UriComponentsBuilder componentsBuilder) throws IOException {
@@ -60,6 +65,7 @@ public class DocumentController {
     }
 
     @GetMapping("/{documentNumber}/template")
+    @ApiOperation("Returns the template of a document")
     public ResponseEntity<?> getTemplateData(@PathVariable("documentNumber") String documentNumber) {
         Document document = this.documentService.loadByDocumentNumber(documentNumber);
         byte[] formTemplateData = document.getDocumentTemplate().getData();

@@ -25,6 +25,11 @@ public class DocumentMerger {
     private final WordprocessingMLPackage wordprocessingMLPackage;
     private final Map<String, String> mergeData;
 
+    private DocumentMerger() {
+        this.wordprocessingMLPackage = null;
+        this.mergeData = null;
+    }
+
     public DocumentMerger(InputStream inputStream, Map<String, String> mergeData) {
 
         this.mergeData = mergeData;
@@ -38,6 +43,10 @@ public class DocumentMerger {
 
     public Map<String, String> getMergeData() {
         return mergeData;
+    }
+
+    public WordprocessingMLPackage getWordprocessingMLPackage() {
+        return wordprocessingMLPackage;
     }
 
     private static Map<DataFieldName, String> toDataFieldMap(Map<String, String> mergeData) {
