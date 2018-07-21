@@ -21,8 +21,7 @@ mail merge operations for Word Documents that contain merge fields.
 }
 ```
 
-2. Upload the template that contains merge fields by `POST`ing the
-   document to `http://your-url-here/documents/{documentNumber}/template`
+2. Upload the template that contains merge fields
    as a multipart form file.
 3. Perform merge operations by `POST`ing to the
    `http://your-url-here/merge`. The word document will be returned
