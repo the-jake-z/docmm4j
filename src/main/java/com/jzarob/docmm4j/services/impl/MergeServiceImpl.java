@@ -110,6 +110,9 @@ public class MergeServiceImpl implements MergeService {
         return null;
     }
 
+
+    // Shamelessly stolen from:
+    // https://stackoverflow.com/questions/15968883/how-to-zip-a-folder-itself-using-java
     public static void pack(String sourceDirPath, OutputStream outputStream) throws IOException {
         try (ZipOutputStream zs = new ZipOutputStream(outputStream)) {
             Path pp = Paths.get(sourceDirPath);
