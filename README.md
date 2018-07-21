@@ -1,5 +1,6 @@
 # Docmm4j
 [![Build Status](https://travis-ci.org/jzarob/docmm4j.svg?branch=master)](https://travis-ci.org/jzarob/docmm4j)
+[![Coverage Status](https://coveralls.io/repos/github/jzarob/docmm4j/badge.svg?branch=master)](https://coveralls.io/github/jzarob/docmm4j?branch=master)
 
 Document Mail Merge For Java (and Spring Boot).
 
