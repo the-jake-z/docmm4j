@@ -1,6 +1,7 @@
 # Docmm4j
 [![Build Status](https://travis-ci.org/jzarob/docmm4j.svg?branch=master)](https://travis-ci.org/jzarob/docmm4j)
 [![Coverage Status](https://coveralls.io/repos/github/jzarob/docmm4j/badge.svg?branch=master)](https://coveralls.io/github/jzarob/docmm4j?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c9f8e1426cad41bc9663f87a3733af8e)](https://www.codacy.com/app/jzarob/docmm4j?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jzarob/docmm4j&amp;utm_campaign=Badge_Grade)
 
 ---
 
