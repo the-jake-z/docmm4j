@@ -23,8 +23,7 @@ public class MergeController {
     private final MergeService mergeService;
 
     @Autowired
-    public MergeController(
-                           final MergeService mergeService) {
+    public MergeController(final MergeService mergeService) {
         this.mergeService = mergeService;
     }
 

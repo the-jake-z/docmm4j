@@ -36,20 +36,20 @@ public class DocumentController {
 
     @PostMapping()
     @ApiOperation("Creates a document to use for merging")
-    public ResponseEntity<?> createDocument(@RequestBody Document document,
+    public ResponseEntity<?> createDocument(@RequestBody final Document document,
                                             final UriComponentsBuilder componentsBuilder) {
 
-        document = this.documentService.createDocument(document);
+        Document result = this.documentService.createDocument(document);
         UriComponents components = componentsBuilder.path("/document/{documentNumber}")
-                .buildAndExpand(document.getDocumentNumber());
+                .buildAndExpand(result.getDocumentNumber());
 
         return ResponseEntity.created(components.toUri()).build();
     }
 
     @PostMapping("/{documentNumber}/template")
     @ApiOperation("Uploads a template to a document for merging")
-    public ResponseEntity<?> uploadTemplate(@PathVariable("documentNumber") String documentNumber,
-                                            @RequestParam("file") MultipartFile file,
+    public ResponseEntity<?> uploadTemplate(@PathVariable("documentNumber") final String documentNumber,
+                                            @RequestParam("file") final MultipartFile file,
                                             final UriComponentsBuilder componentsBuilder) throws IOException {
 
         Document document = this.documentService.loadByDocumentNumber(documentNumber);
@@ -64,7 +64,7 @@ public class DocumentController {
 
     @GetMapping("/{documentNumber}/template")
     @ApiOperation("Returns the template of a document")
-    public ResponseEntity<?> getTemplateData(@PathVariable("documentNumber") String documentNumber) {
+    public ResponseEntity<?> getTemplateData(@PathVariable("documentNumber") final String documentNumber) {
         Document document = this.documentService.loadByDocumentNumber(documentNumber);
         byte[] formTemplateData = document.getDocumentTemplate().getData();
 
