@@ -24,11 +24,13 @@ You can start by creating a document in the document library by `POST`ing to the
 `/api/v1/document` endpoint with a request body like this:
 
 ```json
+{
     "documentNumber": "12345",
     "mapping": {
         "MergeFieldName": "$.json.path",
         "MergeField2Name": "$.another.path"
     }
+}
 ```
 
 The mapping links the merge field to a JSON value provided in the `mergeData` property of
