@@ -50,7 +50,7 @@ public class Document {
 
     @JsonIgnore
     public String getFileName() {
-        return String.format("%s.docx", documentNumber);
+        return String.format("%s.pdf", documentNumber);
     }
 
     public void setDocumentTemplate(Binary documentTemplate) {

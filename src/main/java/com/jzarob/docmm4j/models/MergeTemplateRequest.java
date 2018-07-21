@@ -1,4 +1,4 @@
-package com.jzarob.docmm4j.transfer;
+package com.jzarob.docmm4j.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -21,10 +21,5 @@ public final class MergeTemplateRequest {
 
     public void setMergeData(JsonNode jsonNode) {
         this.mergeData = jsonNode.toString();
-    }
-
-    @JsonIgnore
-    public void setMergeData(String mergeData) {
-        this.mergeData = mergeData;
     }
 }

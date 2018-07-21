@@ -3,6 +3,9 @@ package com.jzarob.docmm4j.models;
 import com.jzarob.docmm4j.exceptions.WordDocumentLoadException;
 import com.jzarob.docmm4j.exceptions.WordDocumentMergeException;
 import com.jzarob.docmm4j.exceptions.WordDocumentSaveException;
+import org.docx4j.Docx4J;
+import org.docx4j.convert.out.pdf.PdfConversion;
+import org.docx4j.convert.out.pdf.viaXSLFO.PdfSettings;
 import org.docx4j.model.fields.merge.DataFieldName;
 import org.docx4j.model.fields.merge.MailMerger;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
@@ -55,7 +58,7 @@ public class DocumentMerger {
         }
 
         try {
-            wordprocessingMLPackage.save(outputStream);
+            Docx4J.toPDF(wordprocessingMLPackage, outputStream);
         } catch (Docx4JException exception) {
             throw new WordDocumentSaveException(exception);
         }

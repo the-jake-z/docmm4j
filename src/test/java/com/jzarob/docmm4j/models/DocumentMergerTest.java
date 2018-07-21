@@ -1,6 +1,7 @@
 package com.jzarob.docmm4j.models;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,6 +32,10 @@ public class DocumentMergerTest {
     public void documentMerger_shouldPerformMergeSuccessfully() throws Exception {
         FileOutputStream outputStream = new FileOutputStream(temp);
         this.documentMerger.performMerge(outputStream);
+        outputStream.flush();
+        outputStream.close();
+
+        Assert.assertTrue(temp.length() > 0);
     }
 
     @After
