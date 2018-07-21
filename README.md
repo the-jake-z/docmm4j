@@ -1,4 +1,5 @@
 # Docmm4j
+[![Build Status](https://travis-ci.org/jzarob/docmm4j.svg?branch=master)](https://travis-ci.org/jzarob/docmm4j)
 
 Document Mail Merge For Java (and Spring Boot).
 
