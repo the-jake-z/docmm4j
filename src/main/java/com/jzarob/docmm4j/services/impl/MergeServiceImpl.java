@@ -32,11 +32,15 @@ public class MergeServiceImpl implements MergeService {
         MailMerger.setMERGEFIELDInOutput(MailMerger.OutputField.KEEP_MERGEFIELD);
     }
 
-    @Autowired
-    private DocumentService documentService;
+    private final DocumentService documentService;
+    private final ZipService zipService;
 
     @Autowired
-    private ZipService zipService;
+    public MergeServiceImpl(final DocumentService documentService,
+                            final ZipService zipService) {
+        this.documentService = documentService;
+        this.zipService = zipService;
+    }
 
 
     @Override

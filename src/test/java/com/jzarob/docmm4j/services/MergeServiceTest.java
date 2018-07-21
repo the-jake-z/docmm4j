@@ -7,6 +7,7 @@ import com.jzarob.docmm4j.models.Groupings;
 import com.jzarob.docmm4j.models.MergeTemplateRequest;
 import com.jzarob.docmm4j.models.MultiMergeRequest;
 import com.jzarob.docmm4j.services.impl.MergeServiceImpl;
+import com.jzarob.docmm4j.services.impl.ZipServiceImpl;
 import org.apache.commons.io.FileUtils;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
@@ -34,20 +35,20 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class MergeServiceTest {
 
-    @Mock
-    ZipService zipService;
 
     @Mock
     DocumentService documentService;
-
-    @InjectMocks
-    MergeServiceImpl mergeService;
+    ZipService zipService = new ZipServiceImpl();
+    MergeService mergeService;
 
     private String mergeData;
     private Document document;
 
     @Before
     public void setUp() throws Exception {
+
+        mergeService = new MergeServiceImpl(documentService, zipService);
+
         mergeData = "{\"SampleName\":\"Jake Zarobsky\"}";
 
         document = new Document();
