@@ -72,14 +72,14 @@ to merge several documents at the same time, you can do so by `POST`ing to
         {
           "documentNumber": "12345",
           "mergeData": {
-          "json": {
-            "path": "some value"
-          },
-          "another": {
-            "path": "some other value"
+              "json": {
+                "path": "some value"
+              },
+              "another": {
+                "path": "some other value"
+              }
           }
         }
-       }
       ]
     }
   ]
