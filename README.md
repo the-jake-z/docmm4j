@@ -79,6 +79,7 @@ to merge several documents at the same time, you can do so by `POST`ing to
             "path": "some other value"
           }
         }
+       }
       ]
     }
   ]
