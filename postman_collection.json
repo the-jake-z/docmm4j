@@ -10,7 +10,7 @@
 		{
 			"name": "create",
 			"request": {
-				"url": "{{url}}/documents",
+				"url": "{{url}}/document",
 				"method": "POST",
 				"header": [
 					{
@@ -21,7 +21,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"formNumber\": \"12345sample\",\n\t\"mappingScheme\": {\n\t\t\"SampleName\": \"$.SampleName\"\n\t}\n}"
+					"raw": "{\n\t\"documentNumber\": \"12345sample\",\n\t\"mappingScheme\": {\n\t\t\"SampleName\": \"$.SampleName\"\n\t}\n}"
 				},
 				"description": ""
 			},
@@ -50,7 +50,7 @@
 		{
 			"name": "upload template",
 			"request": {
-				"url": "{{url}}/documents/12345sample/template",
+				"url": "{{url}}/document/12345sample/template",
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -92,7 +92,7 @@
 		{
 			"name": "merge",
 			"request": {
-				"url": "{{url}}/merge",
+				"url": "{{url}}/merge/single",
 				"method": "POST",
 				"header": [
 					{
@@ -103,13 +103,13 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "{\n\t\"documentNumber\": \"12345sample\",\n\t\"mergeData\": {\n\t\t\"SampleName\": \"Jake Zarobsky\"\t\n\t}\n}"
 				},
 				"description": ""
 			},
 			"response": [
 				{
-					"id": "1153204a-1ae9-4540-92fb-a864561e1329",
+					"id": "a63e5aed-f39e-481e-9262-abaf0a954116",
 					"name": "test",
 					"originalRequest": {
 						"url": "{{url}}/merge",
