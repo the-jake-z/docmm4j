@@ -1,12 +1,8 @@
 package com.jzarob.docmm4j.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.jzarob.docmm4j.models.Document;
-import com.jzarob.docmm4j.models.MediaTypes;
-import com.jzarob.docmm4j.services.DocumentService;
-import com.jzarob.docmm4j.services.MergeService;
 import com.jzarob.docmm4j.models.MergeTemplateRequest;
+import com.jzarob.docmm4j.services.MergeService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

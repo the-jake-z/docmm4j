@@ -3,7 +3,6 @@ package com.jzarob.docmm4j.controllers;
 import com.jzarob.docmm4j.models.Document;
 import com.jzarob.docmm4j.models.MediaTypes;
 import com.jzarob.docmm4j.services.DocumentService;
-import org.apache.http.HttpHeaders;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.junit.Assert;
@@ -18,8 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import javax.xml.ws.Response;
 
 import java.util.Arrays;
 
