@@ -1,6 +1,5 @@
 package com.jzarob.docmm4j.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 
 public final class MergeTemplateRequest {

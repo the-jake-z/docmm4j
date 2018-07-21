@@ -4,7 +4,10 @@ import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 import com.jzarob.docmm4j.exceptions.MultiMergeException;
 import com.jzarob.docmm4j.exceptions.WordDocumentMergeException;
-import com.jzarob.docmm4j.models.*;
+import com.jzarob.docmm4j.models.Document;
+import com.jzarob.docmm4j.models.Groupings;
+import com.jzarob.docmm4j.models.MergeTemplateRequest;
+import com.jzarob.docmm4j.models.MultiMergeRequest;
 import com.jzarob.docmm4j.services.DocumentService;
 import com.jzarob.docmm4j.services.MergeService;
 import com.jzarob.docmm4j.services.ZipService;
@@ -17,7 +20,6 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-
 
 import java.io.*;
 import java.nio.file.Files;

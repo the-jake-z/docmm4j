@@ -1,11 +1,8 @@
 package com.jzarob.docmm4j.controllers;
 
-import com.jzarob.docmm4j.models.Document;
-import com.jzarob.docmm4j.models.MediaTypes;
-import com.jzarob.docmm4j.models.MultiMergeRequest;
-import com.jzarob.docmm4j.services.DocumentService;
-import com.jzarob.docmm4j.services.MergeService;
 import com.jzarob.docmm4j.models.MergeTemplateRequest;
+import com.jzarob.docmm4j.models.MultiMergeRequest;
+import com.jzarob.docmm4j.services.MergeService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;

@@ -1,6 +1,5 @@
 package com.jzarob.docmm4j.services;
 
-import com.jzarob.docmm4j.models.Document;
 import com.jzarob.docmm4j.models.MultiMergeRequest;
 import org.springframework.core.io.Resource;
 
