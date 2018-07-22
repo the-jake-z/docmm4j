@@ -23,6 +23,7 @@ import org.springframework.core.io.Resource;
 import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.mockito.Mockito.when;
 
@@ -47,9 +48,11 @@ public class MergeServiceTest {
         document = new Document();
 
         document.setId("12345");
-        document.setMappingScheme(new HashMap<String, String>() {{
-            put("SampleName", "$.SampleName");
-        }});
+
+        Map<String, String> mergeData = new HashMap<>();
+        mergeData.put("SampleName", "$.SampleName");
+
+        document.setMappingScheme(mergeData);
         document.setDocumentTemplate(new Binary(BsonBinarySubType.BINARY,
                 FileUtils.readFileToByteArray(new File("samples/sample.docx"))));
 

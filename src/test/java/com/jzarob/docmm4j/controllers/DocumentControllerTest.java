@@ -32,7 +32,7 @@ public class DocumentControllerTest {
     @InjectMocks
     private DocumentController documentController;
 
-    MockMultipartFile file;
+    private MockMultipartFile file;
 
     @Before
     public void setUp() {

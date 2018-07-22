@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jzarob.docmm4j.models.MergeTemplateRequest;
 import com.jzarob.docmm4j.services.MergeService;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -27,11 +26,6 @@ public class MergeControllerTest {
 
     @InjectMocks
     private MergeController mergeController;
-
-    @Before
-    public void setUp() {
-
-    }
 
     @Test
     public void mergeDocumentRequestReturnsMergedDocument() throws Exception {

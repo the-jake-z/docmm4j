@@ -42,8 +42,6 @@ public class DocumentServiceTest {
 
     @Test(expected = DocumentNotFoundException.class)
     public void whenDocumentServiceDocumentNotFoundThrowsException() {
-        Document expected = new Document();
-
         documentService.loadByDocumentNumber("12345");
     }
 
