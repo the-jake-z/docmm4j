@@ -25,13 +25,13 @@ public class DocumentServiceTest {
     private DocumentServiceImpl documentService;
 
     @Test(expected = DocumentNotFoundException.class)
-    public void whenDocumentService_formNumberNotFound_ThrowsExeption() {
+    public void whenDocumentServiceDocumentNumberNotFoundThrowsExeption() {
         when(documentRepository.findByDocumentNumber(any())).thenThrow(DocumentNotFoundException.class);
         documentService.loadByDocumentNumber("12345");
     }
 
     @Test()
-    public void whenDocumentService_formNumberFound_returnsDocument() {
+    public void whenDocumentServiceDocumentNumberFoundReturnsDocument() {
         Document expected = new Document();
         when(documentRepository.findByDocumentNumber(any())).thenReturn(expected);
 
@@ -41,14 +41,14 @@ public class DocumentServiceTest {
     }
 
     @Test(expected = DocumentNotFoundException.class)
-    public void whenDocumentService_documentNotFound_throwsException() {
+    public void whenDocumentServiceDocumentNotFoundThrowsException() {
         Document expected = new Document();
 
         documentService.loadByDocumentNumber("12345");
     }
 
     @Test(expected = DuplicateDocumentException.class)
-    public void whenDocumentService_documentExists_ThrowsException() {
+    public void whenDocumentServiceInsertDuplicateDocumentThrowsException() {
         when(documentRepository.existsById("12345")).thenReturn(true);
 
         Document temp = new Document();
@@ -58,7 +58,7 @@ public class DocumentServiceTest {
     }
 
     @Test
-    public void whenDocumentService_createDocument_returnDocument() {
+    public void whenDocumentServiceCreateDocumentReturnDocument() {
         Document temp = new Document();
 
         when(documentRepository.save(temp)).thenReturn(temp);
@@ -69,7 +69,7 @@ public class DocumentServiceTest {
     }
 
     @Test
-    public void whenDocumentService_saveDocument_returnsDocument() {
+    public void whenDocumentServiceSavesDocumentReturnsDocument() {
         Document temp = new Document();
 
         when(documentRepository.save(temp)).thenReturn(temp);

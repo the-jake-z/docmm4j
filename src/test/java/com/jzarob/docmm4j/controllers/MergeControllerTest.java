@@ -34,7 +34,7 @@ public class MergeControllerTest {
     }
 
     @Test
-    public void mergeDocumentRequest_returnsMergedDocument() throws Exception {
+    public void mergeDocumentRequestReturnsMergedDocument() throws Exception {
 
         ByteArrayResource resource = new ByteArrayResource(new byte[] { 0x15 });
 

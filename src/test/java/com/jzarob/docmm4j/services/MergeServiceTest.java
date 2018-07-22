@@ -10,6 +10,7 @@ import com.jzarob.docmm4j.services.impl.ZipServiceImpl;
 import org.apache.commons.io.FileUtils;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +19,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.util.Assert;
 
 import java.io.File;
 import java.util.Collections;
@@ -57,14 +57,14 @@ public class MergeServiceTest {
     }
 
     @Test
-    public void mergeService_whenMergeDocument_ShouldReturnResource() {
+    public void mergeServiceWhenMergeDocumentShouldReturnResource() {
         Resource result = mergeService.mergeDocument("12345", mergeData);
-        Assert.notNull(result, "ensure that we have a resource");
-        Assert.isTrue(result instanceof ByteArrayResource, "ensure that its a byte array one");
+        Assert.assertNotNull("ensure that we have a resource", result);
+        Assert.assertTrue("ensure that its a byte array one", result instanceof ByteArrayResource);
     }
 
     @Test
-    public void mergeService_whenMergeMultiple_ShouldReturnResource() throws Exception {
+    public void mergeServiceWhenMergeMultipleShouldReturnResource() throws Exception {
 
         MultiMergeRequest multiMergeRequest = new MultiMergeRequest();
         MergeTemplateRequest request = new MergeTemplateRequest();
@@ -81,7 +81,7 @@ public class MergeServiceTest {
 
 
         Resource result = mergeService.mergeMultipleDocuments(multiMergeRequest);
-        Assert.notNull(result, "ensure that we have a resource");
-        Assert.isTrue(result instanceof FileSystemResource, "ensure that we have a file");
+        Assert.assertNotNull("ensure that we have a resource", result);
+        Assert.assertTrue("ensure that we have a file", result instanceof FileSystemResource);
     }
 }

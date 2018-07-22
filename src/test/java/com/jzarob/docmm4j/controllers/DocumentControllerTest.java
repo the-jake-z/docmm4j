@@ -40,7 +40,7 @@ public class DocumentControllerTest {
     }
 
     @Test
-    public void documentController_whenGetDocumentNumber_returnsSuccessStatus() {
+    public void documentControllerWhenGetDocumentNumberReturnsSuccessStatus() {
         when(documentService.loadByDocumentNumber(any())).thenReturn(new Document());
 
         ResponseEntity<?> responseEntity = documentController.loadByDocumentNumber("12345");
@@ -49,7 +49,7 @@ public class DocumentControllerTest {
     }
 
     @Test
-    public void documentController_whenCreate_returnsLocationHeader() {
+    public void documentControllerWhenCreateReturnsLocationHeader() {
         Document d = new Document();
         d.setDocumentNumber("12345");
         when(documentService.createDocument(d)).thenReturn(d);
@@ -60,7 +60,7 @@ public class DocumentControllerTest {
     }
 
     @Test
-    public void documentController_whenUploadTemplate_returnsAccepted() throws Exception {
+    public void documentControllerWhenUploadTemplateReturnsAccepted() throws Exception {
         Document d = new Document();
         d.setDocumentNumber("12345");
 
@@ -78,7 +78,7 @@ public class DocumentControllerTest {
     }
 
     @Test
-    public void documentController_whenGetDocumentTemplate_returnsTemplate() {
+    public void documentControllerWhenGetDocumentTemplateReturnsTemplate() {
         byte[] content = new byte[] { 0x15 };
         Document d = new Document();
         d.setDocumentTemplate(new Binary(BsonBinarySubType.BINARY, content));
